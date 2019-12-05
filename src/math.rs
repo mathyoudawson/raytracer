@@ -19,6 +19,14 @@ pub struct Ray {
     pub direction: Vector,
 }
 
+#[derive(Copy, Clone, PartialEq, Debug)]
+pub struct Rgb (pub f32, pub f32, pub f32);
+
+impl Rgb {
+    pub const WHITE: Self = Rgb(1.0, 1.0, 1.0);
+    pub const BLACK: Self = Rgb(0.0, 0.0, 0.0);
+}
+
 impl ops::Sub<Vector> for Vector {
     type Output = Vector;
 
