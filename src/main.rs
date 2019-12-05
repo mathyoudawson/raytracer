@@ -108,4 +108,46 @@ mod test {
         let tri = world.get_intersecting_triangle(ray);
         assert_eq!(tri, Some(world.triangles[0]));
     }
+
+    #[test]
+    fn negative_intersection(){
+        let world = World {
+            triangles: vec![
+                math::Triangle {
+                    points: [
+                        math::Vector  {
+                            x: 1.0,
+                            y: 1.00,
+                            z: 1.0,
+                        },
+                        math::Vector  {
+                            x: 0.0,
+                            y: 1.00,
+                            z: -1.00,
+                        },
+                        math::Vector  {
+                            x: 0.0,
+                            y: 0.00,
+                            z: 1.00,
+                        },
+                    ]
+                }
+            ]
+        };
+
+        let origin = math::Vector {
+            x: 1.0,
+            y: 1.0,
+            z: 0.0,
+        };
+
+        let ray = math::Ray {
+            origin,
+            direction: - origin,
+        };
+
+        let tri = world.get_intersecting_triangle(ray);
+        assert_eq!(tri, None);
+
+    }
 }
