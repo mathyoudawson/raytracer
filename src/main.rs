@@ -9,46 +9,62 @@ fn main() {
             math::Triangle {
                 points: [
                     math::Vector  {
-                        x: 3.2,
-                        y: 4.9,
-                        z: 23.00001,
+                        x: 0.0,
+                        y: -1.00,
+                        z: 0.0,
                     },
                     math::Vector  {
-                        x: 3.2,
-                        y: 4.9,
-                        z: 3.00001,
+                        x: 0.0,
+                        y: 1.00,
+                        z: -1.00,
                     },
                     math::Vector  {
-                        x: 3.2,
-                        y: 4.9,
-                        z: 2.00001,
+                        x: 0.0,
+                        y: 1.00,
+                        z: 1.00,
                     },
-                ]
+                ],
+                color: math::Rgb(0.3, 0.6, 0.2),
             }
-        ]
+        ]    
     };
-
-    let ray = math::Ray {
-        origin: math::Vector {
-            x: 3.2,
-            y: 4.9,
-            z: 2.00001,
-        },
-        direction: math::Vector {
-            x: 3.2,
-            y: 4.9,
-            z: 2.00001,
-        },
-    };
-
-    let tri = world.get_intersecting_triangle(ray);
-    println!("Triangle: {:#?}", tri);
 
     let mut frame_buffer = build_bitmap(WIDTH, HEIGHT);
 
     for x in 0..WIDTH {
         for y in 0..HEIGHT {
-            frame_buffer[(y * WIDTH + x) as usize].0 += x as f32;
+          /**  let ray = math::Ray {
+                origin: math::Vector {
+                    x: x as f32,
+                    y: y as f32,
+                    z: 0.0,
+                },
+                direction: math::Vector {
+                    x: x as f32,
+                    y: y as f32,
+                    z: 0.0,
+                    },
+                    }; **/
+
+            let origin = math::Vector {
+                x: 5.0,
+                y: 5.0,
+                z: 0.0,
+            };
+
+            let ray = math::Ray {
+                origin: origin * 20.0,
+                direction: - origin,
+            };
+
+
+
+            if let Some(tri) = world.get_intersecting_triangle(ray) {
+                frame_buffer[(y * WIDTH + x) as usize] = tri.color;
+            }
+            else {
+                frame_buffer[(y * WIDTH + x) as usize] = math::Rgb::WHITE;
+            }
         }
     }
 
@@ -74,6 +90,10 @@ fn convert_bitmap_to_image(bitmap: &[math::Rgb]) -> Vec<u8> {
 #[derive(Clone, PartialEq, Debug)]
 pub struct World {
     triangles: Vec<math::Triangle>
+}
+
+pub struct Canvas {
+    pub bitmap: Vec<math::Rgb>
 }
 
 impl World {
@@ -117,7 +137,8 @@ mod test {
                             y: 1.00,
                             z: 1.00,
                         },
-                    ]
+                    ],
+                    color: math::Rgb(0.3, 0.6, 0.2),
                 }
             ]
         };
@@ -158,7 +179,8 @@ mod test {
                             y: 0.00,
                             z: 1.00,
                         },
-                    ]
+                    ],
+                    color: math::Rgb(0.3, 0.6, 0.2),
                 }
             ]
         };

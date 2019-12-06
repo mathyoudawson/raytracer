@@ -2,7 +2,8 @@ use std::ops;
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct Triangle {
-    pub points: [Vector; 3]
+    pub points: [Vector; 3],
+    pub color: Rgb,
 }
 
 pub type Scalar = f32;
